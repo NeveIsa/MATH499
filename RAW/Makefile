@@ -2,7 +2,6 @@
 
 all: clean tranch1 tranch2 tranch3
 
-
 tranch1:
 	wget http://sampy.ml:499/persons-posture-tranch1.zip
 	unzip persons-posture-tranch1.zip
@@ -21,4 +20,4 @@ tranch3:
 
 
 clean:
-      	rm -rf home
+	rm -rf home
