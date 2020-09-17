@@ -2,8 +2,6 @@ import config
 
 import os
 
-
-
 from zipfile import ZipFile
 import matplotlib.pyplot as plt
 import tensorflow as tf
@@ -64,19 +62,36 @@ def img_load(img_pathi,dir):
     return cleanimg
 
 
-os.system(f'mkdir -p {config.PROCESSED}/Patient')
-os.system(f'mkdir -p {config.PROCESSED}/Staff')
+
+
+from sklearn.model_selection import KFold
+kf = KFold(n_splits=5) # train-80% , test-20%
+kf.get_n_splits(df.index)
+train_index,test_index = list(kf.split(df.index))[0]
+
+
+os.system(f'mkdir -p {config.PROCESSED}/train/Patient')
+os.system(f'mkdir -p {config.PROCESSED}/train/Staff')
+
+os.system(f'mkdir -p {config.PROCESSED}/test/Patient')
+os.system(f'mkdir -p {config.PROCESSED}/test/Staff')
+
+
 for idx,row in df.iterrows():
 
     if row['staff_patient_other'] in ['Patient', 'Staff']:
         print(idx)
-        plt.savefig(f'{config.PROCESSED}/{row["staff_patient_other"]}/{row["file_name"]}')
+        plt.savefig(f'{config.PROCESSED}/train/{row["staff_patient_other"]}/{row["file_name"]}')
 
 
 
 
 
 exit(0)
+
+
+
+
 
 #img loader
 def img_load(img_path):
