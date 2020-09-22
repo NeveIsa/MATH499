@@ -5,7 +5,7 @@ import os
 from zipfile import ZipFile
 import matplotlib.pyplot as plt
 #import tensorflow as tf
-from tensorflow.keras import datasets, layers, models
+#from tensorflow.keras import datasets, layers, models
 import numpy as np
 import pandas as pd
 
