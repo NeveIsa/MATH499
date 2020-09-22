@@ -30,3 +30,8 @@ make all # for downloading all data i.e tranch1,2 and 3
 
 ```
 
+
+### Project Folder
+```
+cd /project/tiruvilu_529/
+```
