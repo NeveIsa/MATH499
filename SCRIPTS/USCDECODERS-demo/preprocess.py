@@ -1,11 +1,8 @@
 import config
-
-import os
+import os,sys
 
 from zipfile import ZipFile
 import matplotlib.pyplot as plt
-#import tensorflow as tf
-#from tensorflow.keras import datasets, layers, models
 import numpy as np
 import pandas as pd
 
@@ -18,8 +15,6 @@ zip_file = ZipFile(pictures_path)
 
 file_list = [obj.filename for obj in zip_file.infolist()]
 file_list_simple = [name.split('/')[-1] for name in file_list]
-
-
 
 names = pd.DataFrame({'file_path': file_list, 'file_name': file_list_simple})
 names.head()
@@ -61,9 +56,6 @@ def img_load(img_pathi,dir):
     cleanimg = img_cleanup(img)
     return cleanimg
 
-
-
-
 from sklearn.model_selection import KFold
 kf = KFold(n_splits=5) # train-80% , test-20%
 kf.get_n_splits(df.index)
@@ -76,15 +68,14 @@ os.system(f'mkdir -p {config.PROCESSED}/train/Staff')
 os.system(f'mkdir -p {config.PROCESSED}/test/Patient')
 os.system(f'mkdir -p {config.PROCESSED}/test/Staff')
 
-
+total=len(df)
 for idx,row in df.iterrows():
-
+    test_or_train = 'train' if idx in train_index else 'test'
     if row['staff_patient_other'] in ['Patient', 'Staff']:
-        print(idx)
-        plt.savefig(f'{config.PROCESSED}/train/{row["staff_patient_other"]}/{row["file_name"]}')
-
-
-
+        print('\r               \r',end='')
+        print(f'{idx}/{total}',end='')
+        sys.stdout.flush()
+        plt.savefig(f'{config.PROCESSED}/{test_or_train}/{row["staff_patient_other"]}/{row["file_name"]}')
 
 
 exit(0)
