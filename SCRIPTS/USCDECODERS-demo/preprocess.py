@@ -1,10 +1,11 @@
 import config
-import os,sys
+import os,sys,time
 
 from zipfile import ZipFile
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+
 
 tranch = 1
 labels_path = f'{config.RAW}/tranch'+str(tranch)+'_labels.csv'
@@ -51,32 +52,57 @@ def img_cleanup(img,shape=IMG_SIZE):
     return img
 
 #img loader
-def img_load(img_pathi,dir):
+def img_load(img_path):
     img = plt.imread(zip_file.open(img_path))
     cleanimg = img_cleanup(img)
     return cleanimg
 
-from sklearn.model_selection import KFold
-kf = KFold(n_splits=5) # train-80% , test-20%
-kf.get_n_splits(df.index)
-train_index,test_index = list(kf.split(df.index))[0]
+#from sklearn.model_selection import KFold
+#kf = KFold(n_splits=5) # train-80% , test-20%
+#kf.get_n_splits(df.index)
+#train_index,test_index = list(kf.split(df.index))[0]
 
 
-os.system(f'mkdir -p {config.PROCESSED}/train/Patient')
-os.system(f'mkdir -p {config.PROCESSED}/train/Staff')
 
-os.system(f'mkdir -p {config.PROCESSED}/test/Patient')
-os.system(f'mkdir -p {config.PROCESSED}/test/Staff')
+def loadimg(idx):
+    row = df.iloc[idx]
+    if row['staff_patient_other'] in ['Patient', 'Staff']: pass
+    else: return None,None,None
+    img=img_load(row.file_path)
+    return img, row["staff_patient_other"],row.file_name
+
+
+
+def storeimg(img,_class,file_name):
+    #plt.imshow(img,cmap='gray')
+    plt.imsave(f'{config.PROCESSED}/{_class}/{file_name}',img,cmap='gray')
+    #test_or_train = 'train' if idx in train_index else 'test'
+    #plt.savefig(f'{config.PROCESSED}/{test_or_train}/{row["staff_patient_other"]}/{row["file_name"]}')
+
+
+
+print('Will delete data in {config.PROCESSED}? y/N')
+ip = input()
+
+if ip=='Y':
+    os.system(f'rm -rf {config.PROCESSED}/*')
+    time.sleep(2)
+else:
+    exit(0)
+
+os.system(f'mkdir -p {config.PROCESSED}/Patient')
+os.system(f'mkdir -p {config.PROCESSED}/Staff')
+
+
 
 total=len(df)
 for idx,row in df.iterrows():
-    test_or_train = 'train' if idx in train_index else 'test'
-    if row['staff_patient_other'] in ['Patient', 'Staff']:
-        print('\r               \r',end='')
-        print(f'{idx}/{total}',end='')
-        sys.stdout.flush()
-        plt.savefig(f'{config.PROCESSED}/{test_or_train}/{row["staff_patient_other"]}/{row["file_name"]}')
-
+    print('\r               \r',end='')
+    print(f'{idx}/{total}',end='')
+    sys.stdout.flush()    
+    img,_class,filename = loadimg(idx)
+    if filename:
+        storeimg(img,_class,filename)
 
 exit(0)
 

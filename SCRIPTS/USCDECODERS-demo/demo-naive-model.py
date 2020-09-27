@@ -1,5 +1,13 @@
 import os,sys
-os.listdir("/content/drive/My Drive/M499_F20_Data")
+import config
 
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+
+
+
+
+print(config.PROCESSED)
 
 
