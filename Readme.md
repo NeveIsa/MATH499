@@ -19,7 +19,7 @@ https://files.fosswire.com/2007/08/fwunixref.pdf
 - Make sure you pass your USC_USERNAME to --account
 - Make sure you are calling your python script in the last line - python YourScript.py
 - Be careful about the time for which you reserve resources in the --time field. Only reserve the amount you need. 
-- Experiment with smaller time values first to see epoch time estimates (see STEP 4) and accordingly over provision resource time by about 25%. 
+- Experiment with smaller time values first to see epoch time estimates (see STEP 4) and accordingly overprovision resource time by about 25%. 
 
  
 ```
