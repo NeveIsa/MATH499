@@ -50,7 +50,7 @@ sh JOB.sh
 
 or 
 
-sh JOB.sh
+sh JOBGPU.sh
 
 ```
 
