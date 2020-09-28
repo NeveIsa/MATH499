@@ -24,7 +24,7 @@ https://files.fosswire.com/2007/08/fwunixref.pdf
  
 ```
 #!/bin/bash
-#SBATCH --gres=gpu:k40:1        # 1 node with 1 K40 GPU (DELETE line for no GPU)
+#SBATCH --gres=gpu:k40:1        # 1 node with 1 K40 GPU (DELETE ithis line if your script does not use GPU)
 #SBATCH --ntasks=1              # 1 process
 #SBATCH --cpus-per-task=8       # 8 CPUs
 #SBATCH --mem=16GB              # 16 GB of memory
