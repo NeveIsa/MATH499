@@ -32,8 +32,8 @@ https://files.fosswire.com/2007/08/fwunixref.pdf
 #SBATCH --account=USC_USERNAME  # Account to charge resources to
   
 module load gcc
-module load cuda
-module load cudnn
+module load cuda/10.1.243
+module load cudnn/7.6.5.32-10.1
 module load python
 
 python YourScript.py
